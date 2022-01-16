@@ -15,6 +15,7 @@
     "static-server": "2.2.1"
   },
   "dependencies": {
+    "canvas-confetti": "^1.4.0",
     "date-fns": "^2.28.0"
   }
 }

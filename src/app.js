@@ -4,6 +4,7 @@ import {Warning} from "./warning.js";
 import {Keyboard} from "./keyboard.js";
 import {Grid} from  "./grid.js";
 import {Words} from "./words.js";
+import confetti from "canvas-confetti";
 
 let theWords;
 let theHistory;
@@ -16,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Counter on new day: "quiz ready"?
-// README
 
 const T = {
   title: "Szó reggelt! Napi szófejtő.",
@@ -169,6 +169,7 @@ class App {
     // Game just finished now
     if (this.gamestate.isSolved()) {
       this.warning.show(T.congrats);
+      setTimeout(doConfetti, 600);
     } else {
       this.warning.show(this.gamestate.solution.toUpperCase());
     }
@@ -207,4 +208,11 @@ class App {
   initFromHistory() {
     this.gamestate = theHistory.currentGame();
   }
+}
+
+function doConfetti() {
+  confetti();
+  setTimeout(() => {
+    confetti();
+  }, 800);
 }
