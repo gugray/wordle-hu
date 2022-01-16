@@ -5,24 +5,28 @@ class Grid {
     this.elm = elm;
     this.gamestate = gamestate;
     this.updateView();
-    this.updateAppearance();
-    window.addEventListener("resize", () => this.updateAppearance());
+    this.updateLayout();
+    window.addEventListener("resize", () => this.updateLayout());
   }
 
-  updateAppearance() {
+  updateLayout() {
     let height = this.elm.offsetHeight;
+    let vpad = 4; // Padding at top and bottom, above and below grid
+    let tileSpacing = height < 300 ? 2 : 4;
+    this.elm.style.paddingTop = (vpad - tileSpacing) + "px";
+    this.elm.style.paddingBottom = 2 * vpad + "px";
     let elmRows = this.elm.querySelectorAll(".row");
     for (const elmRow of elmRows) {
-      if (height < 300) elmRow.style.padding = "2px";
-      else elmRow.style.padding = "4px";
+      elmRow.style.padding = tileSpacing + "px";
     }
     let elmTiles = this.elm.querySelectorAll(".tile");
-    let tileSize = height / 5 - 8;
+    let tileSize = height / 5 - 2 * vpad;
     if (tileSize > elmTiles[0].offsetHeight)tileSize = elmTiles[0].offsetHeight
     for (const elmTile of elmTiles) {
       elmTile.style.width = tileSize + "px";
       elmTile.style.fontSize = Math.floor(elmTile.offsetHeight * 0.6) + "px";
-      if (height < 300) elmTile.style.margin = "2px";
+      elmTile.style.marginLeft = tileSpacing + "px";
+      elmTile.style.marginRight = tileSpacing + "px";
     }
     this.elm.style.visibility = "visible";
   }
