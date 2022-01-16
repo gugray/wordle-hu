@@ -26,7 +26,7 @@ const T = {
   puzzleSuccess: "A ${day}. napi rejtvényt megfejtetted!",
   puzzleFail: "A ${day}. napi rejtvény kifogott rajtad.",
   shareClipboard: "Az eredmény a vágólapon!",
-  shareText: "Szó reggelt!\n{day}. napi rejtvény: 6 / {guesses}\n\n",
+  shareText: "Szó reggelt!\n{day}. napi fejtés: 6/{guesses}\n\n",
 }
 
 class App {
@@ -78,7 +78,9 @@ class App {
     document.getElementById("shareGeneral").addEventListener("click", () => {
       let msg = T.shareText;
       msg = msg.replace("{day}", this.gamestate.dayIx);
-      msg = msg.replace("{guesses}", this.gamestate.finishedRows);
+      if (this.gamestate.isSolved())
+        msg = msg.replace("{guesses}", this.gamestate.finishedRows);
+      else msg = msg.replace("{guesses}", "X");
       msg += this.gamestate.getShareText();
       if (navigator.share) {
         navigator.share({
