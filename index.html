@@ -2,6 +2,7 @@
 <html lang="hu">
 <head>
   <meta charset="utf-8"/>
+  <meta name="google" content="notranslate">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Szó reggelt! • Napi szófejtő</title>
   <meta name="description" content="Hat próbálkozásod van, hogy kitaláld a feladott szót. Naponta egy új feladvány.">
@@ -25,7 +26,6 @@
   </script>
   <!--LiveReload-->
 </head>
-</html>
 <body>
 <main>
   <header>
@@ -75,28 +75,26 @@
       </p>
       <button class="close">X</button>
     </section>
-    <section id="statusPopup">
+    <section id="statusPopup" data-nosnippet>
       <h2>Várakozás</h2>
-      <p id="statusMsg"></p>
-      <p>
-        <div id="shareGeneral">
-          <div id="sharePreview">&nbsp;</div>
-          Megosztom
-          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 57.884 57.884">
-            <path d="M45.975,37.031c-3.049,0-5.783,1.314-7.69,3.4l-16.566-7.968c0.396-1.103,0.622-2.282,0.622-3.521
-              c0-1.237-0.227-2.418-0.622-3.521l16.566-7.966c1.907,2.085,4.644,3.402,7.69,3.402c5.759,0,10.429-4.669,10.429-10.428
-              C56.404,4.669,51.734,0,45.975,0c-5.76,0-10.429,4.669-10.429,10.429c0,0.552,0.056,1.09,0.139,1.619l-17.635,8.479
-              c-1.724-1.26-3.842-2.012-6.141-2.012c-5.759,0-10.428,4.668-10.428,10.425c0,5.762,4.669,10.43,10.428,10.43
-              c2.299,0,4.417-0.752,6.14-2.014l17.634,8.481c-0.082,0.529-0.139,1.067-0.139,1.619c0,5.76,4.67,10.428,10.43,10.428
-              c5.759,0,10.428-4.668,10.428-10.428C56.402,41.697,51.734,37.031,45.975,37.031z"/>
-          </svg>
-        </div>
-      </p>
+      <p id="statusMsg">&nbsp;</p>
+      <div id="shareGeneral">
+        <div id="sharePreview">&nbsp;</div>
+        Megosztom
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 57.884 57.884">
+          <path d="M45.975,37.031c-3.049,0-5.783,1.314-7.69,3.4l-16.566-7.968c0.396-1.103,0.622-2.282,0.622-3.521
+            c0-1.237-0.227-2.418-0.622-3.521l16.566-7.966c1.907,2.085,4.644,3.402,7.69,3.402c5.759,0,10.429-4.669,10.429-10.428
+            C56.404,4.669,51.734,0,45.975,0c-5.76,0-10.429,4.669-10.429,10.429c0,0.552,0.056,1.09,0.139,1.619l-17.635,8.479
+            c-1.724-1.26-3.842-2.012-6.141-2.012c-5.759,0-10.428,4.668-10.428,10.425c0,5.762,4.669,10.43,10.428,10.43
+            c2.299,0,4.417-0.752,6.14-2.014l17.634,8.481c-0.082,0.529-0.139,1.067-0.139,1.619c0,5.76,4.67,10.428,10.43,10.428
+            c5.759,0,10.428-4.668,10.428-10.428C56.402,41.697,51.734,37.031,45.975,37.031z"/>
+        </svg>
+      </div>
       <p>A következő rejtvényig hátravan:<br><span id="timeLeft">00&#8203;:00&#8203;:00</span></p>
       <button class="close">X</button>
     </section>
   </article>
-  <section id="grid">
+  <section id="grid" data-nosnippet>
     <div class="row row0">
       <div class="tile tile0"></div>
       <div class="tile tile1"></div>
@@ -140,7 +138,7 @@
       <div class="tile tile3"></div>
     </div>
   </section>
-  <section id="keyboard">
+  <section id="keyboard" data-nosnippet>
     <div class="row">
       <div class="spacer">&nbsp;</div>
       <div class="key">q</div>
@@ -198,3 +196,4 @@
   <aside>&nbsp;</aside>
 </main>
 </body>
+</html>
