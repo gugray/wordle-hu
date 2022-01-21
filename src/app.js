@@ -22,7 +22,6 @@ const T = {
   title: "Szó reggelt! Napi szófejtő.",
   tooFewLetters: "Kevés betű",
   unknownWord: "Ismeretlen szó\n(Vagy ragozott alak? Tulajdonnév?)",
-  congrats: "Ez az!",
   puzzleSuccess: "A ${day}. napi rejtvényt megfejtetted!",
   puzzleFail: "A ${day}. napi rejtvény kifogott rajtad.",
   shareClipboard: "Az eredmény a vágólapon!",
@@ -168,7 +167,6 @@ class App {
     if (!this.gamestate.isFinished()) return;
     // Game just finished now
     if (this.gamestate.isSolved()) {
-      //this.warning.show(T.congrats);
       setTimeout(doConfetti, 600);
     } else {
       this.warning.show(this.gamestate.solution.toUpperCase());
