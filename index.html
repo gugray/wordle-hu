@@ -5,7 +5,7 @@
   <meta name="google" content="notranslate">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Szó reggelt! • Napi szófejtő</title>
-  <meta name="description" content="Hat próbálkozásod van, hogy kitaláld a feladott szót. Naponta egy új feladvány.">
+  <meta name="description" content="Hat próbálkozásod van, hogy kitaláld az ötbetűs szót. Naponta egy új feladvány.">
 
   <meta property="og:url" content="https://jealousmarkup.xyz/szofejto/">
   <meta property="og:type" content="website">
@@ -31,6 +31,7 @@
   <header>
     <h1>Szó reggelt!</h1>
     <h2>~ napi szófejtő ~</h2>
+    <p>Magyar Wordle. Hat próbálkozásod van, hogy kitaláld az ötbetűs szót. Naponta egy új feladvány.</p>
     <button id="showInfo">⁈</button>
     <button id="showStatus">
       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 57.884 57.884">
@@ -43,8 +44,8 @@
       </svg>
     </button>
   </header>
-  <article>
-    <section id="infoPopup">
+  <article class="visible">
+    <section id="infoPopup" class="visible">
       <h2>Hogy működik?</h2>
       <p>
         Hat próbálkozásod van, hogy kitaláld a feladott szót.
@@ -94,6 +95,12 @@
       <button class="close">X</button>
     </section>
   </article>
+  <script>
+    if (localStorage.getItem("games")) {
+      document.getElementsByTagName("article")[0].classList.remove("visible");
+      document.getElementById("infoPopup").classList.remove("visible");
+    }
+  </script>
   <section id="grid" data-nosnippet>
     <div class="row row0">
       <div class="tile tile0"></div>

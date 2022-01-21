@@ -58,19 +58,21 @@ class App {
       if (!this.gamestate.isFinished()) return;
       this.showStatus();
     });
-    if (this.gamestate.isFinished()) {
-      document.getElementById("showStatus").classList.add("visible");
-    }
     elmPopup.addEventListener("click", (e) => {
       if (e.target.tagName != "BUTTON" || !e.target.classList.contains("close")) return;
-      let elmSections = elmPopup.querySelectorAll("section");
-      elmSections.forEach(elm => elm.classList.remove("visible"));
-      elmPopup.classList.remove("visible");
-      if (this.countdownIntervalId) {
-        clearInterval(this.countdownIntervalId);
-        this.countdownIntervalId = null;
-      }
+      this.closePopup();
     });
+  }
+
+  closePopup() {
+    let elmPopup = document.getElementsByTagName("article")[0];
+    let elmSections = elmPopup.querySelectorAll("section");
+    elmSections.forEach(elm => elm.classList.remove("visible"));
+    elmPopup.classList.remove("visible");
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
+      this.countdownIntervalId = null;
+    }
   }
 
   initShare() {
@@ -95,6 +97,7 @@ class App {
 
   showInfo() {
 
+    this.closePopup();
     let elmPopup = document.getElementsByTagName("article")[0];
 
     // Update version from hash in script URL
@@ -111,6 +114,8 @@ class App {
   }
 
   showStatus() {
+
+    this.closePopup();
     let elmPopup = document.getElementsByTagName("article")[0];
 
     let elmStatusMsg = document.getElementById("statusMsg");
