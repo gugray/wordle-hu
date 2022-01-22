@@ -131,7 +131,7 @@ class Gamestate {
     return res;
   }
 
-  getShareText() {
+  getShareText(darkMode, contrastColors) {
     let rowInfos = [];
     for (let i = 0; i < this.finishedRows; ++i) {
       rowInfos.push(this.getFinishedRow(i));
@@ -143,9 +143,9 @@ class Gamestate {
       for (const li of ri) {
         if (!first) res += " ";
         first = false;
-        if (li.state == LetterState.WrongLetter) res += "⬜";
-        else if (li.state == LetterState.WrongPlace) res += "🟥";
-        else if (li.state == LetterState.RightPlace) res += "🟩";
+        if (li.state == LetterState.WrongLetter) res += darkMode ? "⬛" : "⬜";
+        else if (li.state == LetterState.WrongPlace) res += contrastColors ? "🟦" : "🟥";
+        else if (li.state == LetterState.RightPlace) res += contrastColors ? "🟧" : "🟩";
       }
     }
     return res;

@@ -3,39 +3,99 @@
 
 @fntBaseSize: 18px;
 @fntBaseFamily: "Segoe UI", "San Francisco", "Helvetica Neue", sans-serif;
-@clrDarkText: #303030;
 @clrDarkGrey: #707375;
 @clrLightGrey: #e0e0e0;
 @clrGreen: #679e72; // HSL: 132 / 22 / 51
 @clrRed: #c25661; // HSL: 354 / 47 / 55
-// @clrGreen: #d67943; // HSL: 22 / 22 / 51
-// @clrRed: #689ddf; // HSL: 213 / 80 / 76
+@clrOrange: #dba239; // HSL: 39 / 69 / 54
+@clrBlue: #689ddf; // HSL: 213 / 80 / 76
 
-* { box-sizing: border-box; }
+html {
+  // Dark/light
+  --bgColor: white;
+  --popupBgColor: white;
+  --textColor: #303030;
+  --gridLetterColor: white;
+  --toastBgColor: #303030;
+  --toastTextColor: white;
+  --frameUnfilled: #c0c0c0;
+  --frameLight: @clrLightGrey;
+  --frameStrong: @clrDarkGrey;
+  // Color scheme
+  --hitColor: @clrGreen;
+  --hitColorHover: lighten(@clrGreen, 15%);
+  --nearColor: @clrRed;
+  --nearColorHover: lighten(@clrRed, 12%);
+  --missColor: @clrDarkGrey;
+  --missColorHover: lighten(@clrDarkGrey, 15%);
+  --keyColor: #e0e0e0;
+  --keyColorHover: lighten(#e0e0e0, 5%);
+}
+html.dark {
+  // Dark/light
+  --bgColor: #121314;
+  --popupBgColor: #242526;
+  --textColor: #d8dadc;
+  --gridLetterColor: lighten(@clrLightGrey, 5%);
+  --toastBgColor: #c0c0c0;
+  --toastTextColor: black;
+  --frameUnfilled: #505050;
+  --frameLight: @clrDarkGrey;
+  --frameStrong: @clrLightGrey;
+  // Color scheme
+  --hitColorHover: darken(@clrGreen, 8%);
+  --nearColorHover: darken(@clrRed, 8%);
+  --missColor: darken(@clrDarkGrey, 22%);
+  --missColorHover: darken(@clrDarkGrey, 26%);
+  --keyColor: @clrDarkGrey;
+  --keyColorHover: darken(@clrDarkGrey, 10%);
+}
+html.contrast {
+  --hitColor: @clrOrange;
+  --hitColorHover: lighten(@clrOrange, 15%);
+  --nearColor: @clrBlue;
+  --nearColorHover: lighten(@clrBlue, 12%);
+}
+html.contrast.dark {
+  --hitColorHover: darken(@clrOrange, 15%);
+  --nearColorHover: darken(@clrBlue, 8%);
+}
+
+*, *:before, *:after { box-sizing: border-box; }
 html, body { height: 100%; overflow: hidden; }
 body {
   margin: 0; display: flex; justify-content: center;
   font-family: @fntBaseFamily;
-  font-size: @fntBaseSize; color: @clrDarkText;
+  font-size: @fntBaseSize; color: var(--textColor);
+  background-color: var(--bgColor);
 }
+
+html.dark a { color: @clrBlue; }
+
 main {
   position: relative; width: 100%; max-width: 500px;
   display: flex; flex-direction: column; justify-content: flex-start; align-content: stretch;
 
   header {
-    border-bottom: 1pt solid @clrLightGrey; height: 90px; overflow-y: hidden;
+    border-bottom: 1pt solid var(--frameLight); height: 90px; overflow-y: hidden;
     button {
       display: block; position: absolute; cursor: pointer;
-      width:  24px; height: 24px; border-radius: 12px; text-align: center;
-      border: 1.5px solid @clrDarkGrey; color: @clrDarkGrey;
+      width: 24px; height: 24px; text-align: center;
+      svg { display: inline-block; }
+      svg path { fill: var(--frameStrong); }
+    }
+    button.circled {
+      border: 1.5px solid var(--frameStrong); color: var(--frameStrong); border-radius: 12px;
       font-size: 14px; font-weight: bold;
+      svg { width: 13px; height: 13px; margin: 3px 0 0 -2px; }
     }
     #showInfo { right: 15px; top: 15px; }
     #showStatus {
       display: none; &.visible { display: block; }
       left: 15px; top: 15px;
-      svg { width: 13px; height: 13px; display: inline-block; margin: 3px 0 0 -2px; }
-      svg path { fill: @clrDarkGrey; }
+    }
+    #showSettings {
+      right: 48px; top: 15px;
     }
   }
   h1, h2 { font-family: inherit; margin: 0; text-align: center; font-weight: bold; }
@@ -59,7 +119,7 @@ main>section {
   }
   .tile {
     height: 100%;
-    border: 1pt solid #c0c0c0;
+    border: 1pt solid var(--frameUnfilled);
     text-transform: uppercase; font-weight: bold; text-align: center;
     padding-top: 3px;
     margin: 4px; // Will be set from code
@@ -67,11 +127,11 @@ main>section {
     overflow: hidden;
     span { display: block; height: 0; overflow: visible; }
 
-    &.filled { border-color: @clrDarkGrey; }
+    &.filled { border-color: var(--frameStrong); }
     &.miss, &.hit, &.near { transition: background-color 800ms ease-out; }
-    &.miss { background-color: @clrDarkGrey; border-color: @clrDarkGrey; color: white; }
-    &.hit { background-color: @clrGreen; border-color: @clrGreen; color: white; }
-    &.near { background-color: @clrRed; border-color: @clrRed; color: white; }
+    &.miss { background-color: var(--missColor); border-color: var(--missColor); color: var(--gridLetterColor); }
+    &.hit { background-color: var(--hitColor); border-color: var(--hitColor); color: var(--gridLetterColor); }
+    &.near { background-color: var(--nearColor); border-color: var(--nearColor); color: var(--gridLetterColor); }
   }
 }
 
@@ -95,29 +155,29 @@ main>section {
 
     cursor: default; user-select: none;
     text-align: center; font-weight: bold; text-transform: uppercase;
-    background-color: #e0e0e0; transition: background-color 300ms ease-out;
-    &:hover { background-color: lighten(#e0e0e0, 5%); }
-    &.miss { background-color: @clrDarkGrey; color: white; }
-    &.miss:hover { background-color: lighten(@clrDarkGrey, 15%); }
-    &.hit { background-color: @clrGreen; color: white; }
-    &.hit:hover { background-color: lighten(@clrGreen, 15%); }
-    &.near { background-color: @clrRed; color: white; }
-    &.near:hover { background-color: lighten(@clrRed, 12%); }
-    &.pressed, &.pressed:hover { background-color: darken(@clrDarkGrey, 10%); transition: none; }
+    background-color: var(--keyColor); transition: background-color 300ms ease-out;
+    &:hover { background-color: var(--keyColorHover); }
+    &.miss { background-color: var(--missColor); color: var(--textColor); }
+    &.miss:hover { background-color: var(--missColorHover); }
+    &.hit { background-color: var(--hitColor); color: var(--textColor); }
+    &.hit:hover { background-color: var(--hitColorHover); }
+    &.near { background-color: var(--nearColor); color: var(--textColor); }
+    &.near:hover { background-color: var(--nearColorHover); }
+    &.pressed, &.pressed:hover { background-color: var(--missColorHover); transition: none; }
   }
 }
 
-// Smartphones and touchscreen
+// Touchscreen key behavior
 @media (hover: none) and (pointer: coarse) {
   #keyboard .key {
-    &:hover { background-color: @clrLightGrey; }
-    &.miss:hover { background-color: @clrDarkGrey; }
-    &.hit:hover { background-color: @clrGreen; }
-    &.near:hover { background-color: @clrRed; }
+    &:hover { background-color: var(--keyColor); }
+    &.miss:hover { background-color: var(--missColor); }
+    &.hit:hover { background-color: var(--hitColor); }
+    &.near:hover { background-color: var(--nearColor); }
   }
 }
 
-// iPhone SE: 375 x 667
+// Small screen (mobile) layout
 @media screen and (max-width: 450px) {
 
   main header {
@@ -136,10 +196,19 @@ main>section {
   }
 }
 
+// Very small screen layout
+@media screen and (max-width: 350px) {
+  main header {
+    #showInfo { right: 8px; top: 12px; }
+    #showStatus { left: 8px; top: 12px; }
+    #showSettings { right: 38px; top: 12px; }
+  }
+}
+
 aside {
   z-index: 3;
   position: absolute; top: 130px; left: 50%; margin-left: -40%; width: 80%;
-  background-color: @clrDarkText; color: white;
+  background-color: var(--toastBgColor); color: var(--toastTextColor);
   text-align: center; white-space: pre-wrap;
   padding: 10px 10px; border-radius: 8px;
   display: none; &.visible { display: block; }
@@ -153,7 +222,7 @@ button {
 
 a { text-decoration: none; }
 
-hr { border: none; height: 1px; background-color: @clrLightGrey; }
+hr { border: none; height: 1px; background-color: var(--frameLight); }
 
 article {
   display: none; &.visible { display: block; }
@@ -165,23 +234,66 @@ article>section {
   display: none; &.visible { display: block; }
   max-width: 470px; margin: 0 auto;
   box-shadow: 0px 0px 10px darken(@clrLightGrey, 10%);
-  border-radius: 5px; position: relative; background-color: white; padding: 10px 15px;
+  .dark & { box-shadow: none; }
+  border-radius: 5px; position: relative; background-color: var(--popupBgColor); padding: 10px 15px;
   button.close {
     display: block; position: absolute; right: 16px; top: 8px;
-    cursor: pointer; color: @clrDarkGrey; font-weight: bold; font-size: @fntBaseSize;
+    cursor: pointer; color: var(--frameStrong); font-weight: bold; font-size: @fntBaseSize;
   }
   h2 {
     font-size: @fntBaseSize; font-weight: bold; text-transform: uppercase; text-align: left;
   }
+  h3 {
+    font-size: @fntBaseSize * 0.8; font-weight: bold; margin: 0 0 5px 0;
+  }
   font-size: @fntBaseSize * 0.8;
   span.letter {
-    display: inline-block; margin-right: 4px; padding-top: 3px; border: 1pt solid @clrDarkGrey;
+    display: inline-block; margin-right: 4px; padding-top: 3px; border: 1pt solid var(--frameStrong);
     width: 28px; height: 28px; text-align: center; font-weight: bold;
-    &.miss { background-color: @clrDarkGrey; color: white; }
-    &.hit { background-color: @clrGreen; color: white; }
-    &.near { background-color: @clrRed; color: white; }
+    //background-color: var(--bgColor);
+    &.miss { background-color: var(--missColor); color: var(--textColor); }
+    &.hit { background-color: var(--hitColor); color: var(--textColor); }
+    &.near { background-color: var(--nearColor); color: var(--textColor); }
   }
   span.right { display: inline-block; float: right; }
+}
+
+#settingsPopup {
+  div.setting { margin: 20px 0; }
+
+  h3 { position: relative; }
+  .darkLightSelector {
+    position: absolute; right: 0; top: -3px; height: 22px; width: 44px;
+    background-color: black; border: 1px black; border-radius: 22px;
+    cursor: pointer; user-select: none;
+    span, img { display: block; position: absolute; top: 1px; }
+    img { width: 16px; height: 16px; }
+    .thumb {
+      width: 20px; height: 20px; background-color: white; border-radius: 20px;
+      transition: left .5s cubic-bezier(.23,1,.32,1) 0ms;
+    }
+    .moon { left: 3px; top: 2px; }
+    .sun { right: 4px; top: 3px; }
+    &.lightMode .thumb { left: 1px; }
+    &.darkMode .thumb { left: 23px; }
+  }
+
+  p.settingNote { margin: 0 0 10px 0; font-style: italic; }
+  label { display: block; margin-bottom: 4px; }
+  input[type="radio"] { display: none; }
+  input[type="radio"] + *::before {
+    content: ""; display: inline-block; vertical-align: bottom;
+    width: 0.9rem; height: 0.9rem; margin-right: 0.3rem; border-radius: 50%;
+    border: 1pt solid currentColor; transform: translateY(-0.15rem);
+  }
+  input[type="radio"]:checked + * { color: currentColor; }
+  input[type="radio"]:checked + *::before {
+    background: radial-gradient(currentColor 0%, currentColor 40%, transparent 50%, transparent);
+  }
+  span.green { color: @clrGreen; }
+  span.red { color: @clrRed; }
+  span.orange { color: @clrOrange; }
+  span.blue { color: @clrBlue; }
 }
 
 #statusPopup {
@@ -189,8 +301,8 @@ article>section {
   #shareGeneral {
     position: relative;
     padding: 10px 0 13px 0; width: 250px; border-radius: 4px;
-    background-color: @clrGreen; color: white; text-align: center;
-    &:hover { background-color: lighten(@clrGreen, 10%); }
+    background-color: var(--hitColor); color: white; text-align: center;
+    &:hover { background-color: var(--hitColorHover); }
     cursor: default; user-select: none;
     font-size: 22px; text-transform: uppercase;
     svg { width: 24px; height: 24px; display: block; position: absolute; right: 12px; top: 12px; }

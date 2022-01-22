@@ -1,3 +1,4 @@
+import {DisplayMode, ColorScheme, Settings} from "./settings.js";
 import {LetterState, LetterInfo, Gamestate} from "./gamestate.js";
 import {History} from "./history.js";
 import {Warning} from "./warning.js";
@@ -6,9 +7,14 @@ import {Grid} from  "./grid.js";
 import {Words} from "./words.js";
 import confetti from "canvas-confetti";
 
+let theSettings = new Settings();
 let theWords;
 let theHistory;
 let theApp;
+
+if (theSettings.getDisplayMode() == DisplayMode.Dark) {
+  document.documentElement.classList.add("dark");
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   theWords = new Words();
@@ -44,6 +50,7 @@ class App {
 
     this.initPopup();
     this.initShare();
+    this.initSettings();
 
     if (this.gamestate.isFinished()) this.showStatus();
     else if (!theHistory.hasPlayed()) this.showInfo();
@@ -54,6 +61,12 @@ class App {
     document.getElementById("showInfo").addEventListener("click", () => {
       this.showInfo();
     });
+    document.getElementById("showSettings").addEventListener("click", () => {
+      this.showSettings();
+    });
+    if (this.gamestate.isFinished()) {
+      document.getElementById("showStatus").classList.add("visible");
+    }
     document.getElementById("showStatus").addEventListener("click", () => {
       if (!this.gamestate.isFinished()) return;
       this.showStatus();
@@ -82,7 +95,9 @@ class App {
       if (this.gamestate.isSolved())
         msg = msg.replace("{guesses}", this.gamestate.finishedRows);
       else msg = msg.replace("{guesses}", "X");
-      msg += this.gamestate.getShareText();
+      let darkMode = theSettings.displayMode == DisplayMode.Dark;
+      let constrastColors = theSettings.colorScheme == ColorScheme.BlueOrange;
+      msg += this.gamestate.getShareText(darkMode, constrastColors);
       if (navigator.share) {
         navigator.share({
           title: T.title,
@@ -93,6 +108,57 @@ class App {
         this.warning.show(T.shareClipboard);
       }
     });
+  }
+
+  initSettings() {
+
+    let elmDLSetting = document.getElementById("darkLightSetting");
+    if (theSettings.getDisplayMode() == DisplayMode.Dark)
+      elmDLSetting.classList.add("darkMode");
+    else
+      elmDLSetting.classList.add("lightMode");
+    elmDLSetting.addEventListener("click", () => {
+      if (elmDLSetting.classList.contains("darkMode")) {
+        elmDLSetting.classList.remove("darkMode");
+        elmDLSetting.classList.add("lightMode");
+        document.documentElement.classList.remove("dark");
+        theSettings.setDisplayMode(DisplayMode.Light);
+      }
+      else {
+        elmDLSetting.classList.remove("lightMode");
+        elmDLSetting.classList.add("darkMode");
+        document.documentElement.classList.add("dark");
+        theSettings.setDisplayMode(DisplayMode.Dark);
+      }
+    });
+
+    let elmCSSetting = document.getElementById("colorSchemeSetting");
+    if (theSettings.getColorScheme() == ColorScheme.RedGreen) {
+      elmCSSetting.querySelector("#colorsRedGreen").checked = true;
+    }
+    else {
+      elmCSSetting.querySelector("#colorsBlueOrange").checked = true;
+      document.documentElement.classList.add("contrast");
+    }
+    let radios = elmCSSetting.querySelectorAll("input[type=radio]");
+    radios.forEach(radio => radio.addEventListener('change', (e) => {
+      if (elmCSSetting.querySelector("#colorsRedGreen").checked) {
+        document.documentElement.classList.remove("contrast");
+        theSettings.setColorScheme(ColorScheme.RedGreen);
+      }
+      else {
+        document.documentElement.classList.add("contrast");
+        theSettings.setColorScheme(ColorScheme.BlueOrange);
+      }
+    }));
+
+  }
+
+  showSettings() {
+    this.closePopup();
+    let elmPopup = document.getElementsByTagName("article")[0];
+    elmPopup.querySelector("#settingsPopup").classList.add("visible");
+    elmPopup.classList.add("visible");
   }
 
   showInfo() {
@@ -128,8 +194,10 @@ class App {
     elmPopup.querySelector("#statusPopup").classList.add("visible");
     elmPopup.classList.add("visible");
 
+    let darkMode = theSettings.displayMode == DisplayMode.Dark;
+    let constrastColors = theSettings.colorScheme == ColorScheme.BlueOrange;
     elmPopup.querySelector("#sharePreview").innerHTML =
-      "<span>" + this.gamestate.getShareText() + "</span>";
+      "<span>" + this.gamestate.getShareText(darkMode, constrastColors) + "</span>";
 
     let nextDate = theHistory.nextGameDate();
     updateCounter();
