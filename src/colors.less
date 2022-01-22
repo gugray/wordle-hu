@@ -1,0 +1,60 @@
+@clrDarkGrey: #707375;
+@clrLightGrey: #e0e0e0;
+@clrGreen: #679e72; // HSL: 132 / 22 / 51
+@clrRed: #c25661; // HSL: 354 / 47 / 55
+@clrOrange: #dba239; // HSL: 39 / 69 / 54
+@clrBlue: #689ddf; // HSL: 213 / 80 / 76
+
+.light-color-vars() {
+  // Dark/light
+  --bgColor: white;
+  --popupBgColor: white;
+  --textColor: #303030;
+  --gridLetterColor: white;
+  --toastBgColor: #303030;
+  --toastTextColor: white;
+  --frameUnfilled: #c0c0c0;
+  --frameLight: @clrLightGrey;
+  --frameStrong: @clrDarkGrey;
+  // Color scheme
+  --hitColor: @clrGreen;
+  --hitColorHover: lighten(@clrGreen, 15%);
+  --nearColor: @clrRed;
+  --nearColorHover: lighten(@clrRed, 12%);
+  --missColor: @clrDarkGrey;
+  --missColorHover: lighten(@clrDarkGrey, 15%);
+  --keyColor: #e0e0e0;
+  --keyColorHover: lighten(#e0e0e0, 5%);
+}
+
+.dark-color-vars() {
+  // Dark/light
+  --bgColor: #121314;
+  --popupBgColor: #242526;
+  --textColor: #d8dadc;
+  --gridLetterColor: lighten(@clrLightGrey, 5%);
+  --toastBgColor: #c0c0c0;
+  --toastTextColor: black;
+  --frameUnfilled: #505050;
+  --frameLight: @clrDarkGrey;
+  --frameStrong: @clrLightGrey;
+  // Color scheme
+  --hitColorHover: darken(@clrGreen, 8%);
+  --nearColorHover: darken(@clrRed, 8%);
+  --missColor: darken(@clrDarkGrey, 22%);
+  --missColorHover: darken(@clrDarkGrey, 26%);
+  --keyColor: @clrDarkGrey;
+  --keyColorHover: darken(@clrDarkGrey, 10%);
+}
+
+.contrast-color-vars() {
+  --hitColor: @clrOrange;
+  --hitColorHover: lighten(@clrOrange, 15%);
+  --nearColor: @clrBlue;
+  --nearColorHover: lighten(@clrBlue, 12%);
+}
+
+.contrast-dark-color-vars() {
+  --hitColorHover: darken(@clrOrange, 15%);
+  --nearColorHover: darken(@clrBlue, 8%);
+}

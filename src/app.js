@@ -12,9 +12,7 @@ let theWords;
 let theHistory;
 let theApp;
 
-if (theSettings.getDisplayMode() == DisplayMode.Dark) {
-  document.documentElement.classList.add("dark");
-}
+setDarkLightClass();
 
 document.addEventListener('DOMContentLoaded', () => {
   theWords = new Words();
@@ -121,14 +119,14 @@ class App {
       if (elmDLSetting.classList.contains("darkMode")) {
         elmDLSetting.classList.remove("darkMode");
         elmDLSetting.classList.add("lightMode");
-        document.documentElement.classList.remove("dark");
         theSettings.setDisplayMode(DisplayMode.Light);
+        setDarkLightClass();
       }
       else {
         elmDLSetting.classList.remove("lightMode");
         elmDLSetting.classList.add("darkMode");
-        document.documentElement.classList.add("dark");
         theSettings.setDisplayMode(DisplayMode.Dark);
+        setDarkLightClass();
       }
     });
 
@@ -287,3 +285,14 @@ function doConfetti() {
     confetti();
   }, 800);
 }
+
+function setDarkLightClass() {
+  if (theSettings.getDisplayMode() == DisplayMode.Dark) {
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.add("light");
+  }
+}
+

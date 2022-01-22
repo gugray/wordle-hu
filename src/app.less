@@ -1,65 +1,20 @@
+@import "colors.less";
 
 // Favicon: https://imgbin.com/png/L7gMHybj/alarm-clock-icon-png
 
 @fntBaseSize: 18px;
 @fntBaseFamily: "Segoe UI", "San Francisco", "Helvetica Neue", sans-serif;
-@clrDarkGrey: #707375;
-@clrLightGrey: #e0e0e0;
-@clrGreen: #679e72; // HSL: 132 / 22 / 51
-@clrRed: #c25661; // HSL: 354 / 47 / 55
-@clrOrange: #dba239; // HSL: 39 / 69 / 54
-@clrBlue: #689ddf; // HSL: 213 / 80 / 76
 
-html {
-  // Dark/light
-  --bgColor: white;
-  --popupBgColor: white;
-  --textColor: #303030;
-  --gridLetterColor: white;
-  --toastBgColor: #303030;
-  --toastTextColor: white;
-  --frameUnfilled: #c0c0c0;
-  --frameLight: @clrLightGrey;
-  --frameStrong: @clrDarkGrey;
-  // Color scheme
-  --hitColor: @clrGreen;
-  --hitColorHover: lighten(@clrGreen, 15%);
-  --nearColor: @clrRed;
-  --nearColorHover: lighten(@clrRed, 12%);
-  --missColor: @clrDarkGrey;
-  --missColorHover: lighten(@clrDarkGrey, 15%);
-  --keyColor: #e0e0e0;
-  --keyColorHover: lighten(#e0e0e0, 5%);
+html, html.light { .light-color-vars; }
+html.dark { .dark-color-vars; }
+html.contrast, html.contrast.light { .contrast-color-vars; }
+html.contrast.dark { .contrast-dark-color-vars; }
+
+@media (prefers-color-scheme: dark) {
+  html { .dark-color-vars; }
+  html.contrast { .contrast-dark-color-vars; }
 }
-html.dark {
-  // Dark/light
-  --bgColor: #121314;
-  --popupBgColor: #242526;
-  --textColor: #d8dadc;
-  --gridLetterColor: lighten(@clrLightGrey, 5%);
-  --toastBgColor: #c0c0c0;
-  --toastTextColor: black;
-  --frameUnfilled: #505050;
-  --frameLight: @clrDarkGrey;
-  --frameStrong: @clrLightGrey;
-  // Color scheme
-  --hitColorHover: darken(@clrGreen, 8%);
-  --nearColorHover: darken(@clrRed, 8%);
-  --missColor: darken(@clrDarkGrey, 22%);
-  --missColorHover: darken(@clrDarkGrey, 26%);
-  --keyColor: @clrDarkGrey;
-  --keyColorHover: darken(@clrDarkGrey, 10%);
-}
-html.contrast {
-  --hitColor: @clrOrange;
-  --hitColorHover: lighten(@clrOrange, 15%);
-  --nearColor: @clrBlue;
-  --nearColorHover: lighten(@clrBlue, 12%);
-}
-html.contrast.dark {
-  --hitColorHover: darken(@clrOrange, 15%);
-  --nearColorHover: darken(@clrBlue, 8%);
-}
+
 
 *, *:before, *:after { box-sizing: border-box; }
 html, body { height: 100%; overflow: hidden; }
