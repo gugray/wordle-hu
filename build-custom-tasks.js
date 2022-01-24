@@ -64,6 +64,9 @@ async function prepWords() {
   let newWordsAll = await fs.promises.readFile("words/szotarhu-5-filter3.txt", "utf8");
   let newWords = newWordsAll.split(/\r?\n/);
   words.push(...newWords);
+  // Third set of words
+  let thirdWirdsAll = await fs.promises.readFile("words/new2-reviewed.txt", "utf8");
+  let thirdWords = thirdWirdsAll.split(/\r?\n/);
 
   words = shuffle(words);
   let pws = "", ows = "";
@@ -84,6 +87,11 @@ async function prepWords() {
       pws += '"' + wshift + '",\n';
       pwSet.add(wshift);
     }
+  }
+  for (const w of thirdWords) {
+    if (w == "") continue;
+    let wd = w.replaceAll(".", "");
+    ows += '"' + shiftStr(wd) + '",\n';
   }
   let wordsJs = buildWordsJs(pws, ows);
   await fs.promises.writeFile("words/words.js", wordsJs);

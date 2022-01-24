@@ -1,3 +1,9 @@
+// I used this script to filter out new words when a new word list turned up
+// The first manually revised set of words is in hu-words-5-filtered.txt
+// The new list, saved from szotar.hu, is in szotarhu-5-filter1.txt
+// The additions were again manually reviewed and saved as szotarhu-5-filter3.txt
+// This is used directly by the custom build task
+
 const fs = require("fs");
 
 let prevWordsStr = fs.readFileSync("words/hu-words-5-filtered.txt", "utf8");
