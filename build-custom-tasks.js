@@ -80,14 +80,18 @@ async function prepWords() {
 
   for (const w of words) {
     if (w == "") continue;
-    if (w.startsWith(".")) ows += '"' + shiftStr(w.substr(1)) + '",\n';
+    if (w.startsWith(".")) {
+      ows += '"' + shiftStr(w.substr(1)) + '",\n';
+    }
     else {
       let wshift = shiftStr(w);
+      if (wshift == "wêsfc") continue;
       if (pwSet.has(wshift)) continue;
       pws += '"' + wshift + '",\n';
       pwSet.add(wshift);
     }
   }
+  ows += '"wêsfc",\n';
   for (const w of thirdWords) {
     if (w == "") continue;
     let wd = w.replaceAll(".", "");
