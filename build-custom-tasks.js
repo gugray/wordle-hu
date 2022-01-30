@@ -112,15 +112,18 @@ exports = (options = {}) => {
         try { fs.unlinkSync("public/app.css.map"); } catch {}
       });
       build.onEnd(async result => {
+        let appJsHash = await getHash("public/app.js");
+        let appCssHash = await getHash("public/app.css");
         let indexHtml = await fs.promises.readFile("index.html", "utf8");
         if (options.prod) {
-          let appJsHash = await getHash("public/app.js");
-          let appCssHash = await getHash("public/app.css");
           indexHtml = indexHtml.replace("./app.js", "./app.js?v=" + appJsHash);
           indexHtml = indexHtml.replace("./app.css", "./app.css?v=" + appCssHash);
           indexHtml = indexHtml.replace(/<!--LiveReload-->.*<!--LiveReload-->/is, "");
         }
         await fs.promises.writeFile("public/index.html", indexHtml);
+        let hashesTogether = appJsHash + "\n" + appCssHash;
+        if (hashesTogether.length != 65) throw "wrong combined hash length";
+        await fs.promises.writeFile("public/version.html", hashesTogether);
       });
     }
   };

@@ -1,4 +1,5 @@
 import {DisplayMode, ColorScheme, Settings} from "./settings.js";
+import {Reloader} from "./reloader.js";
 import {LetterState, LetterInfo, Gamestate} from "./gamestate.js";
 import {History} from "./history.js";
 import {Warning} from "./warning.js";
@@ -7,6 +8,7 @@ import {Grid} from  "./grid.js";
 import {Words} from "./words.js";
 import confetti from "canvas-confetti";
 
+let theReloader = new Reloader();
 let theSettings = new Settings();
 let theWords;
 let theHistory;
@@ -15,12 +17,21 @@ let theApp;
 setDarkLightClass();
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  let timeVal = new Date().getTime();
+  if (timeVal % 10 == 0)
+    plausible("szofejto");
+
   theWords = new Words();
   theHistory = new History(theWords);
   theApp = new App(false);
 });
 
+// OK Save hashes and trigger reload
+// OK Sampled analytics thru Plausible event
+// OK Text: nothing collected
 // Counter on new day: "quiz ready"?
+// Repeating letters fix
 
 const T = {
   title: "Szó reggelt! Napi szófejtő.",
