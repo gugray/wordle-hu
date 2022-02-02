@@ -14,11 +14,11 @@ class Reloader {
     let reHash = new RegExp("\\?v=(.+)$");
 
     let elmAppScript = document.getElementById("app-js");
-    m = reHash.exec(elmAppScript.src);
+    let m = reHash.exec(elmAppScript.src);
     if (m) this.combinedHash = m[1];
 
     let elmLinkCss = document.getElementById("app-css");
-    let m = reHash.exec(elmLinkCss.href);
+    m = reHash.exec(elmLinkCss.href);
     if (m && this.combinedHash != null) this.combinedHash += "\n" + m[1];
 
     this.checkHash();
