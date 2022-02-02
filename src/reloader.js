@@ -12,12 +12,15 @@ class Reloader {
     catch {}
     this.combinedHash = null
     let reHash = new RegExp("\\?v=(.+)$");
-    let elmLinkCss = document.getElementById("app-css");
-    let m = reHash.exec(elmLinkCss.href);
-    if (m) this.combinedHash = m[1];
+
     let elmAppScript = document.getElementById("app-js");
     m = reHash.exec(elmAppScript.src);
+    if (m) this.combinedHash = m[1];
+
+    let elmLinkCss = document.getElementById("app-css");
+    let m = reHash.exec(elmLinkCss.href);
     if (m && this.combinedHash != null) this.combinedHash += "\n" + m[1];
+
     this.checkHash();
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") this.checkHash();
