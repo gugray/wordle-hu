@@ -252,6 +252,9 @@ article>section {
 }
 
 #statusPopup {
+  padding-bottom: 20px;
+  #statusGameComplete { display: none; margin-bottom: 15px; }
+  &.gameComplete #statusGameComplete { display: block; }
   #timeLeft { font-size: @fntBaseSize * 2; }
   #shareGeneral {
     position: relative;
@@ -270,6 +273,29 @@ article>section {
       display: block; font-size: 4px; white-space: pre-wrap; line-height: 1.5;
       border: 1px solid white; padding: 1px;
     }
+  }
+  #statCounts {
+    td, th { text-align: left; padding-left: 10px; &:first-child { padding-left: 0; } }
+    th { font-weight: normal; text-transform: uppercase; font-size: @fntBaseSize * 0.6; }
+    td { font-weight: normal; font-size: @fntBaseSize * 2; }
+  }
+  #statusStatistics {
+    display: none;
+    h3 { font-size: inherit; font-family: inherit; font-weight: bold; margin: 14px 0 7px 0; }
+    #gamesBarChart { display: none; padding: 0 20px 0 20px; width: 100%; font-size: @fntBaseSize * 0.7; }
+    p { display: block; margin-top: 0; }
+    .bar {
+      background-color: var(--frameUnfilled); margin-bottom: 5px; min-width: 30px;
+      &.empty { min-width: unset; }
+      span { display: inline-block; }
+      span.label { margin-left: -20px; font-weight: bold; }
+      span.value { float: right; margin-right: 5px; color: white; } // Yup white, works in light and dark mode too
+    }
+  }
+  &.gotStatistics #statusStatistics { display: block; }
+  &.gotBarChart #statusStatistics {
+    #gamesBarChart { display: block; }
+    p { display: none; }
   }
 }
 

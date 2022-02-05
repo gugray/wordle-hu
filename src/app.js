@@ -32,8 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // OK Save hashes and trigger reload
 // OK Sampled analytics thru Plausible event
 // OK Text: nothing collected
-// Counter on new day: "quiz ready"?
-// Repeating letters fix
+// XX Counter on new day: "quiz ready"?
+// OK Repeating letters fix
+// Statistics
 // Reloader not a class
 
 const T = {
@@ -76,11 +77,12 @@ class App {
     document.getElementById("showSettings").addEventListener("click", () => {
       this.showSettings();
     });
-    if (this.gamestate.isFinished()) {
+    let stats = theHistory.getStats();
+    if (stats.played > 0) {
       document.getElementById("showStatus").classList.add("visible");
     }
     document.getElementById("showStatus").addEventListener("click", () => {
-      if (!this.gamestate.isFinished()) return;
+      if (stats.played == 0) return;
       this.showStatus();
     });
     elmPopup.addEventListener("click", (e) => {
@@ -194,27 +196,71 @@ class App {
   showStatus() {
 
     this.closePopup();
-    let elmPopup = document.getElementsByTagName("article")[0];
 
-    let elmStatusMsg = document.getElementById("statusMsg");
+    let stats = theHistory.getStats();
+    let nextDate = theHistory.nextGameDate();
+    let elmPopup = document.getElementsByTagName("article")[0];
+    let elmStatusPopup = elmPopup.querySelector("#statusPopup");
     let elmTimeLeft = document.getElementById("timeLeft");
-    let dayIx = this.gamestate.dayIx;
-    let msg = this.gamestate.isSolved()
-      ? T.puzzleSuccess.replace("${day}", dayIx)
-      : T.puzzleFail.replace("${day}", dayIx)
-    elmStatusMsg.innerText = msg;
-    elmPopup.querySelector("#statusPopup").classList.add("visible");
+
+    // statusGameComplete section
+    if (this.gamestate.isFinished()) {
+      elmStatusPopup.classList.add("gameComplete");
+      let elmStatusMsg = document.getElementById("statusMsg");
+      let dayIx = this.gamestate.dayIx;
+      let msg = this.gamestate.isSolved()
+        ? T.puzzleSuccess.replace("${day}", dayIx)
+        : T.puzzleFail.replace("${day}", dayIx)
+      elmStatusMsg.innerText = msg;
+
+      let darkMode = theSettings.displayMode == DisplayMode.Dark;
+      let constrastColors = theSettings.colorScheme == ColorScheme.BlueOrange;
+      elmPopup.querySelector("#sharePreview").innerHTML =
+        "<span>" + this.gamestate.getShareText(darkMode, constrastColors) + "</span>";
+
+      updateCounter();
+      this.countdownIntervalId = setInterval(updateCounter, 50);
+    }
+
+    // statusStatistics section
+    if (stats.played > 0) {
+
+      // Overall numbers
+      elmStatusPopup.classList.add("gotStatistics");
+      let winPercent = Math.round(stats.won * 100 / stats.played);
+      elmStatusPopup.querySelector("#daysPlayed").textContent = stats.played;
+      elmStatusPopup.querySelector("#successRate").textContent = winPercent + "%";
+      if (stats.streak == 0) elmStatusPopup.querySelector("#streak").textContent = "-";
+      else elmStatusPopup.querySelector("#streak").textContent = stats.streak;
+
+      // Within statistics, bar chart
+      if (stats.played >= 5) {
+        setBar(1, stats.length1, stats.played);
+        setBar(2, stats.length2, stats.played);
+        setBar(3, stats.length3, stats.played);
+        setBar(4, stats.length4, stats.played);
+        setBar(5, stats.length5, stats.played);
+        setBar(6, stats.length6, stats.played);
+        setBar("X", stats.lengthX, stats.played);
+        elmStatusPopup.classList.add("gotBarChart");
+      }
+    }
+    function setBar(barId, count, total) {
+      let elmBar = elmStatusPopup.querySelector(".bar" + barId);
+      if (count > 0) {
+        elmBar.classList.remove("empty");
+        elmBar.querySelector(".value").textContent = count;
+      }
+      else elmBar.classList.add("empty");
+      let percent = Math.round(100 * count / total);
+      elmBar.style.width = percent + "%";
+    }
+
+    // Show status popup
+    elmStatusPopup.classList.add("visible");
     elmPopup.classList.add("visible");
 
-    let darkMode = theSettings.displayMode == DisplayMode.Dark;
-    let constrastColors = theSettings.colorScheme == ColorScheme.BlueOrange;
-    elmPopup.querySelector("#sharePreview").innerHTML =
-      "<span>" + this.gamestate.getShareText(darkMode, constrastColors) + "</span>";
-
-    let nextDate = theHistory.nextGameDate();
-    updateCounter();
-    this.countdownIntervalId = setInterval(updateCounter, 50);
-
+    // Keeping it here for closure (elmTimeLeft, nextDate)
     function updateCounter() {
       let dateNow = new Date();
       let seconds = Math.floor((nextDate - (dateNow)) / 1000);
