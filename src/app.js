@@ -234,26 +234,35 @@ class App {
       else elmStatusPopup.querySelector("#streak").textContent = stats.streak;
 
       // Within statistics, bar chart
-      if (stats.played >= 5) {
-        setBar(1, stats.length1, stats.played);
-        setBar(2, stats.length2, stats.played);
-        setBar(3, stats.length3, stats.played);
-        setBar(4, stats.length4, stats.played);
-        setBar(5, stats.length5, stats.played);
-        setBar(6, stats.length6, stats.played);
-        setBar("X", stats.lengthX, stats.played);
+      if (stats.played >= 0) {
+        let max = findMax(stats);
+        setBar(1, stats.length1, max);
+        setBar(2, stats.length2, max);
+        setBar(3, stats.length3, max);
+        setBar(4, stats.length4, max);
+        setBar(5, stats.length5, max);
+        setBar(6, stats.length6, max);
+        setBar("X", stats.lengthX, max);
         elmStatusPopup.classList.add("gotBarChart");
       }
     }
-    function setBar(barId, count, total) {
+    function setBar(barId, count, max) {
       let elmBar = elmStatusPopup.querySelector(".bar" + barId);
       if (count > 0) {
         elmBar.classList.remove("empty");
         elmBar.querySelector(".value").textContent = count;
       }
       else elmBar.classList.add("empty");
-      let percent = Math.round(100 * count / total);
+      let percent = Math.round(100 * count / max);
       elmBar.style.width = percent + "%";
+    }
+    function findMax(stats) {
+      let max = 0;
+      for (const prop in stats) {
+        if (!prop.startsWith("length")) continue;
+        if (stats[prop] > max) max = stats[prop];
+      }
+      return max;
     }
 
     // Show status popup
