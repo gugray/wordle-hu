@@ -8,6 +8,8 @@ import {Grid} from  "./grid.js";
 import {Words} from "./words.js";
 import confetti from "canvas-confetti";
 
+import "./gamestate.test.js";
+
 let theReloader = new Reloader();
 let theSettings = new Settings();
 let theWords;
@@ -32,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // OK Text: nothing collected
 // Counter on new day: "quiz ready"?
 // Repeating letters fix
+// Reloader not a class
 
 const T = {
   title: "Szó reggelt! Napi szófejtő.",

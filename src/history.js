@@ -23,6 +23,7 @@ class History {
       let gamesData = JSON.parse(gamesDataStr);
       for (const gs of gamesData) {
         Object.setPrototypeOf(gs, Gamestate.prototype);
+        gs.init();
         this.games.push(gs);
       }
     }

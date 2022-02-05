@@ -105,12 +105,25 @@ exports = (options = {}) => {
   return {
     name: 'customTasks',
     setup(build) {
+
+      // In production build, just exclude everything ending in "test.js"
+      if (options.prod) {
+        build.onLoad({filter: /.*test\.js/}, async (args) => {
+          console.log(args.path);
+          return {contents: ''};
+        });
+      }
+
+      // Before build, prepare word lists; clean up maps in target folder
       build.onStart(async () => {
         if (!options.prod) return;
         await prepWords();
         try { fs.unlinkSync("public/app.js.map"); } catch {}
         try { fs.unlinkSync("public/app.css.map"); } catch {}
       });
+
+      // When build is done, infuse cache busting hashes in index.html,
+      // and also save them in version.html
       build.onEnd(async result => {
         let appJsHash = await getHash("public/app.js");
         let appCssHash = await getHash("public/app.css");
