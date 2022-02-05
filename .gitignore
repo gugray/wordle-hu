@@ -5,4 +5,5 @@ yarn-error.log
 
 public/app.*
 public/index.html
+public/version.html
 words/words.js
