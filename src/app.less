@@ -67,6 +67,7 @@ main>section {
   flex: 1 1;
   display: flex; flex-direction: column; justify-content: flex-start; align-content: stretch;
   visibility: hidden; // Will be removed from code, once tiles sizes are fixed
+  user-select: none;
   .row {
     width: 100%; display: flex; justify-content: center; align-content: stretch;
     height: 16.6%; max-height: @fntBaseSize * 3;
@@ -93,7 +94,7 @@ main>section {
 #spacer { height: 5px; flex: 0 0; }
 
 #keyboard {
-  font-size: @fntBaseSize;
+  font-size: @fntBaseSize; user-select: none;
   flex: 0 0;
 
   .row {
@@ -108,7 +109,7 @@ main>section {
     &.enter, &.back { width: 12vw; max-width: 4em; }
     &.enter { font-size: 0.7em; padding-top: 1.1em; }
 
-    cursor: default; user-select: none;
+    cursor: default;
     text-align: center; font-weight: bold; text-transform: uppercase;
     background-color: var(--keyColor); transition: background-color 300ms ease-out;
     &:hover { background-color: var(--keyColorHover); }
@@ -298,6 +299,15 @@ article>section {
     p { display: none; }
   }
 }
+
+
+// Touchscreen key behavior
+@media (hover: none) and (pointer: coarse) {
+  #statusPopup #shareGeneral {
+    &:hover { background-color: var(--hitColor); }
+  }
+}
+
 
 
 // HTML to render the image used in og:image
