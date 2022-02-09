@@ -1952,7 +1952,7 @@ muhar
 mulat
 .multi
 mulya
-.mumsz
+.muksi
 mumus
 munka
 murci

@@ -840,3 +840,5 @@ vétóz
 .halíz
 .háton
 .hason
+.piréz
+.bútol
