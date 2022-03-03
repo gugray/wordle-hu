@@ -6,6 +6,7 @@ import {Warning} from "./warning.js";
 import {Keyboard} from "./keyboard.js";
 import {Grid} from  "./grid.js";
 import {Words} from "./words.js";
+import {announceSorry} from "./announcement.js";
 import confetti from "canvas-confetti";
 
 import "./gamestate.test.js";
@@ -67,6 +68,10 @@ class App {
 
     if (this.gamestate.isFinished()) this.showStatus();
     else if (!theHistory.hasPlayed()) this.showInfo();
+    // On day 57, say sorrt for "amcsi" on day 56
+    else if (this.gamestate.dayIx == 57 && this.gamestate.rows[0] == "") {
+      announceSorry();
+    }
   }
 
   initPopup() {
